@@ -1,0 +1,6 @@
+key = '{{ SECRET["spotti-downbot-key"] }}'
+status_file = '{{ var_dir("spotti") }}/status.txt'
+pid_file = '{{ var_dir("spotti-downbot") }}/bot-pid.txt'
+spotti_uptime = 'http://localhost:44554/spotti/up'
+size_uptime = 'http://localhost:12002/up'
+me = 165551069907124224

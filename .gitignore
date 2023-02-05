@@ -1,0 +1,6 @@
+__pycache__
+build
+secret.dhall
+Dockerfile
+mounts/*
+!mounts/README

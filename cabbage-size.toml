@@ -1,0 +1,2 @@
+client_id = '{{ SECRET["cabbage-size-client-id"] }}'
+client_secret = '{{ SECRET["cabbage-size-client-secret"] }}'

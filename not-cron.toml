@@ -1,0 +1,7 @@
+[[job]]
+cmd = ['bash', '{{ file("spotti-downbot-cron") }}']
+every = '4 minutes'
+
+[[job]]
+cmd = ['curl', '-X', 'POST', 'grape.surgery/size/clean']
+every = '6 hours'

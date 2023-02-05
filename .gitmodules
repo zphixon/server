@@ -1,0 +1,12 @@
+[submodule "shrub_bot"]
+	path = shrub_bot
+	url = git@github.com:zphixon/shrub-bot.git
+[submodule "spotti"]
+	path = spotti
+	url = git@github.com:zphixon/spotti.git
+[submodule "cabbage-size"]
+	path = cabbage-size
+	url = git@github.com:zphixon/cabbage-size.git
+[submodule "not-cron"]
+	path = not-cron
+	url = git@github.com:zphixon/not-cron.git

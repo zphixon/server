@@ -109,7 +109,7 @@ let nginx = withMounts (makeApp "nginx" [
 ]
 
 let syncthing = withMounts (makeApp "syncthing" noCopyFiles) [
-  { name = "data", src = "mounts/syncthing/data" },
+  { name = "data", src = "/mnt/syncthing" },
   { name = "conf", src = "mounts/syncthing/conf" },
 ]
 

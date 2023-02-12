@@ -1,3 +1,5 @@
+# vim: et ts=4 sw=4 ft=toml
+
 [[job]]
 cmd = ['bash', '{{ file("spotti-downbot-cron") }}']
 every = '4 minutes'
@@ -5,3 +7,15 @@ every = '4 minutes'
 [[job]]
 cmd = ['curl', '-X', 'POST', 'grape.surgery/size/clean']
 every = '6 hours'
+
+[[job]]
+every = '2 weeks'
+with-env = {
+    AWS_ACCESS_KEY_ID = '{{ SECRET["aws-id"] }}',
+    AWS_SECRET_ACCESS_KEY = '{{ SECRET["aws-key"] }}',
+}
+cmd = [
+    'aws', 's3', 'sync',
+    '{{ mount("syncthing-data") }}',
+    's3://whomst', '--storage-class', 'DEEP_ARCHIVE',
+]

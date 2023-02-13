@@ -240,5 +240,7 @@ def app_dir(name: str) -> pathlib.PurePath:
     return App.get(name).app_dir
 def log_dir(name: str) -> pathlib.PurePath:
     return App.get(name).log_dir
+def log_file(name: str) -> pathlib.PurePath:
+    return App.get(name).log_dir / (name + '.log')
 def var_dir(name: str) -> pathlib.PurePath:
     return App.get(name).var_dir

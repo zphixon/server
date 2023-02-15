@@ -10,3 +10,6 @@
 [submodule "not-cron"]
 	path = not-cron
 	url = git@github.com:zphixon/not-cron.git
+[submodule "dart-or-penny"]
+	path = dart-or-penny
+	url = git@github.com:zphixon/dart-or-penny.git

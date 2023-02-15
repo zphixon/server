@@ -124,6 +124,14 @@ if __name__ == '__main__':
             sys.exit(1)
         os.chdir(cwd)
 
+        os.chdir(cwd)
+        os.chdir('dart-or-penny')
+        if Command.run('cargo b --release').returncode != 0:
+            print('build dart-or-penny broke')
+            os.chdir(cwd)
+            sys.exit(1)
+        os.chdir(cwd)
+
         if Command.run(gen_config.create_podman_build_command()).returncode != 0:
             print('build container broke')
             sys.exit(1)

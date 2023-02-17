@@ -117,7 +117,7 @@ let dart-or-penny = withMounts (makeApp "dart-or-penny" [
   normal { name = "binary", src = "dart-or-penny/target/release/dart-or-penny" },
   templated { name = "config", src = "dart-or-penny.toml" },
 ]) [
-  { name = "thumbnails", src = "/mnt/dop-thumbnails" },
+  { name = "thumbnails", src = "/mnt/syncthing/thumbnails" },
 ]
 
 in {

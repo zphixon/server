@@ -1,4 +1,4 @@
-thumbnail_dir = '{{ mount("dart-or-penny-thumbnails") }}'
+thumbnail_dir = '{{ mount("syncthing-data") }}/thumbnails'
 file_dir = '{{ mount("syncthing-data") }}'
 thumbnail_size = 75
 page_root = '/files'

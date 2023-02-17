@@ -1,3 +1,6 @@
 thumbnail_dir = '{{ mount("dart-or-penny-thumbnails") }}'
 file_dir = '{{ mount("syncthing-data") }}'
 thumbnail_size = 75
+page_root = '/files'
+auth = '{{ SECRET["dop-user-pass"] }}'
+bind = '0.0.0.0:16932'

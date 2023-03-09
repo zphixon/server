@@ -1,12 +1,22 @@
 # vim: et ts=4 sw=4 ft=toml
 
 [[job]]
+every = '5 minutes'
 cmd = ['bash', '{{ file("spotti-downbot-cron") }}']
-every = '4 minutes'
 
 [[job]]
-cmd = ['curl', '-X', 'POST', 'grape.surgery/size/clean']
 every = '6 hours'
+cmd = ['curl', '-X', 'POST', 'grape.surgery/size/clean']
+
+[[job]]
+every = '6 hours'
+cmd = [
+    'supervisorctl',
+    '-c',
+    '{{ file("supervisord-config") }}',
+    'restart',
+    'dop',
+]
 
 #[[job]]
 #every = '2 weeks'

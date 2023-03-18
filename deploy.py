@@ -67,10 +67,6 @@ if __name__ == '__main__':
     if args.dry_run:
         Command.actually = False
 
-    if args.attach:
-        Command.run(gen_config.create_attach_command())
-        sys.exit(0)
-
     if args.build or args.detach or args.shell or args.clean:
         Command.run(gen_config.create_podman_stop_command())
         Command.run(gen_config.create_podman_rm_command())
@@ -142,3 +138,5 @@ if __name__ == '__main__':
         )
         Command.run(command)
 
+    if args.attach:
+        Command.run(gen_config.create_attach_command())

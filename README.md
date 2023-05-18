@@ -34,7 +34,7 @@ script vs the db_file key in spotti.toml to to see what I mean.
 generate new certs with:
 
 ```bash
-certbot certonly --cert-name allOfEm -d gang-and-friends.com -d xn--yh8hfqgj.ws -d xn--4v8hv5g.ml -d show-me-ur.rocks -d grape.surgery -d oatmeal.gay
+certbot certonly --cert-name allOfEm -d gang-and-friends.com -d grape.surgery -d oatmeal.gay
 ```
 
 and copy 'em to the mount point?

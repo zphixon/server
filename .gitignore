@@ -4,3 +4,4 @@ secret.dhall
 Dockerfile
 mounts/*
 !mounts/README
+.vscode

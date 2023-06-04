@@ -1,1 +1,0 @@
-key = '{{ SECRET["shrub-bot-key"] }}'

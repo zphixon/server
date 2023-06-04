@@ -1,0 +1,14 @@
+[Unit]
+Description=spotti
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ spotti.user }}
+ExecStart={{ spotti.dir }}/spotti {{ spotti.dir }}/config.toml
+
+[Install]
+WantedBy=multi-user.target

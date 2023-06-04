@@ -1,0 +1,12 @@
+# code: language=ansible
+- name: Check out server source
+  become: true
+  become_user: zack
+  ansible.builtin.git:
+    repo: git@github.com:zphixon/server.git
+    dest: /server/source
+    force: true
+    depth: 1
+    update: true
+    recursive: true
+    version: main

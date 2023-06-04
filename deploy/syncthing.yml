@@ -1,0 +1,38 @@
+# code: language=ansible
+- name: Deploy syncthing
+  hosts: grape_surgery
+  become: true
+
+  vars_files:
+    ../configs/vars.yml
+
+  tasks:
+
+    - name: Install syncthing
+      ansible.builtin.package:
+        name: syncthing
+        state: present
+      # Doesn't come with a systemd service unit by default
+
+    - name: "Ensure syncthing.dir exists: {{ syncthing.dir }}"
+      ansible.builtin.file:
+        path: "{{ syncthing.dir }}"
+        state: directory
+        owner: "{{ syncthing.user }}"
+        mode: u=rwx,g=,o=
+
+    - name: Template syncthing.service
+      ansible.builtin.template:
+        mode: ugo=r
+        src: ../configs/syncthing.service.j2
+        dest: "/lib/systemd/system/syncthing.service"
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Reload syncthing
+      ansible.builtin.service:
+        name: syncthing
+        state: restarted
+        enabled: true

@@ -1,0 +1,14 @@
+[Unit]
+Description=shrub bot
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ shrub_bot.user }}
+ExecStart={{ shrub_bot.dir }}/python/bin/python3 {{ shrub_bot.dir }}/shrub_bot.py {{ shrub_bot.dir }}/config.toml
+
+[Install]
+WantedBy=multi-user.target

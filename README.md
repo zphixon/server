@@ -6,35 +6,33 @@ my server. slightly cursed.
 ## prerequisites
 
 - domain names of course.
-- docker/podman. I like podman, idk why. it should work with either. you'll
-  have to edit the deploy script though
-- mount points for the spotti db, letsencrypt ssl certs, and syncthing stuff
+- ansible
+  - probably also the `acl` package
+- probably should just read the playbooks and config files to make sure it
+  will all work on your system
 
 ```bash
-./deploy --build   # build the container and image
-./deploy --detach  # run it detached
+cd deploy
+ansible-playbook nginx.yml
+ansible-playbook syncthing.yml
+ansible-playbook shrub-bot.yml
+ansible-playbook spotti.yml
+ansible-playbook pages.yml
+ansible-playbook cabbage-size.yml
+ansible-playbook dart-or-penny.yml
 ```
 
 ## caveats
 
-in particular the certs are a little fucky. theoretically it should be as
-simple as just running certbot renew outside the container and having it work
-but who knows. we'll cross that bridge when we get to it.
+- the htpasswd file for dart-or-penny is a little fucky. it needs to be staged
+  manually in the nginx.dir directory. see deploy/nginx.yml
+- the certs are also a little fucky. certbot is annoying in that it persists
+  some data when you create certs.
+- the dop user needs read permissions in the syncthing.data_dir and write perms
+  in syncthing.data_dir/thumbnails
 
-it needs all these files in the same mount point.
+## todo
 
-- /etc/letsencrypt/live/allOfEm/*
-- /etc/letsencrypt/ssl-dhparams.conf
-- /etc/letsencrypt/options-ssl-nginx.conf
-
-also, the db is a little fucky too. it needs to exist at compile time *and* at
-runtime but in different locations. see the DATABASE_URL env var in the deploy
-script vs the db_file key in spotti.toml to to see what I mean.
-
-generate new certs with:
-
-```bash
-certbot certonly --cert-name allOfEm -d gang-and-friends.com -d grape.surgery -d oatmeal.gay
-```
-
-and copy 'em to the mount point?
+- a lot of the stuff in the config files could still be templated out
+- ssl cert renewal
+- syncthing configs (how?)

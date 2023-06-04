@@ -1,0 +1,14 @@
+[Unit]
+Description=dart or penny
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ dop.user }}
+ExecStart={{ dop.dir }}/dart-or-penny {{ dop.dir }}/config.toml
+
+[Install]
+WantedBy=multi-user.target

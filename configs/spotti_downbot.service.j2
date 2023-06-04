@@ -1,0 +1,14 @@
+[Unit]
+Description=spotti discord downbot
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ spotti.user }}
+ExecStart={{ spotti.dir }}/python/bin/python3 {{ spotti.dir }}/downbot.py {{ spotti.dir }}/downbot.toml
+
+[Install]
+WantedBy=multi-user.target

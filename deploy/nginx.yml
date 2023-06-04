@@ -1,0 +1,74 @@
+# code: language=ansible
+- name: Deploy nginx
+  hosts: grape_surgery
+  become: true
+
+  vars_files:
+    - ../configs/vars.yml
+    - ../configs/secret.yml
+
+  tasks:
+
+    - name: Install nginx
+      ansible.builtin.package:
+        name: nginx
+        state: present
+      notify: Disable default nginx service
+
+    - name: "Ensure nginx.dir exists: {{ nginx.dir }}"
+      ansible.builtin.file:
+        path: "{{ nginx.dir }}"
+        state: directory
+        owner: "{{ nginx.user }}"
+        mode: u=rwx,go=
+
+    - name: Template nginx.service
+      ansible.builtin.template:
+        mode: ugo=r
+        src: ../configs/nginx.service.j2
+        dest: "/lib/systemd/system/{{ nginx.custom_service }}.service"
+      notify: Reload systemd
+
+    - name: Template nginx.conf
+      ansible.builtin.template:
+        owner: "{{ nginx.user }}"
+        mode: u=r,go=
+        src: ../configs/nginx.conf.j2
+        dest: "{{ nginx.dir }}/nginx.conf"
+
+    - name: Template sites.conf
+      ansible.builtin.template:
+        owner: "{{ nginx.user }}"
+        mode: ugo=r
+        src: ../configs/sites.conf.j2
+        dest: "{{ nginx.dir }}/sites.conf"
+
+    - name: Reinstall certificates
+      ansible.builtin.command:
+        certbot --reinstall --nginx --nginx-server-root {{ nginx.dir }} --cert-name allOfEm
+      changed_when: true
+
+    - name: Stop nginx (https://github.com/certbot/certbot/issues/5486)
+      ansible.builtin.command:
+        pkill nginx
+      changed_when: true
+      notify: Reload nginx
+
+  handlers:
+
+    - name: Disable default nginx service
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: nginx
+        state: stopped
+        enabled: false
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Reload nginx
+      ansible.builtin.service:
+        name: "{{ nginx.custom_service }}"
+        state: restarted
+        enabled: true

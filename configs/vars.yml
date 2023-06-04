@@ -1,0 +1,52 @@
+nginx:
+  user: www-data
+  custom_service: nginx-custom
+  dir: /server/nginx
+
+syncthing:
+  user: syncthing
+  dir: /server/syncthing
+  data_dir: /mnt/syncthing
+  ports:
+    gui: 8384
+    data_public: 22000
+    data_private: 22200
+
+spotti:
+  user: spotti
+  dir: /server/spotti
+  source_dir: /server/source/spotti
+  database_url: sqlite:///home/zack/server/mounts/spotti/recents.db
+  port: 44554
+  endpoints:
+    - name: authorize
+      value: authorize
+    - name: refresh
+      value: refresh
+    - name: get_new
+      value: ""
+    - name: show_all
+      value: show-all
+    - name: uptime
+      value: up
+
+shrub_bot:
+  user: shrub_bot
+  dir: /server/shrub_bot
+  source_dir: /server/source/shrub_bot
+
+dop:
+  user: dop
+  dir: /server/dop
+  source_dir: /server/source/dart-or-penny
+  port: 16932
+  page_root: /files
+
+cabbage_size:
+  user: cabbage_size
+  dir: /server/cabbage_size
+  source_dir: /server/source/cabbage-size
+  port: 12002
+  endpoints:
+    - size
+    - up

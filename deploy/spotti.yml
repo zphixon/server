@@ -1,0 +1,127 @@
+# code: language=ansible
+- name: Deploy spotti
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+    - ../configs/secret.yml
+
+  tasks:
+
+    - name: "Ensure spotti.dir exists: {{ spotti.dir }}"
+      ansible.builtin.file:
+        path: "{{ spotti.dir }}"
+        state: directory
+        owner: "{{ spotti.user }}"
+        mode: u=rwx,go=
+
+    - name: Build spotti binary
+      become: true
+      become_user: zack
+      ansible.builtin.shell: # noqa: command-instead-of-shell
+        chdir: "{{ spotti.source_dir }}"
+        cmd: DATABASE_URL={{ spotti.database_url }} /home/zack/.cargo/bin/cargo b
+      register: build
+      changed_when: "'Compiling' in build.stderr"
+      notify:
+        - Stop spotti
+        - Copy spotti binary
+        - Reload spotti
+
+    - name: Template spotti.toml
+      ansible.builtin.template:
+        src: ../configs/spotti.toml.j2
+        dest: "{{ spotti.dir }}/config.toml"
+        owner: "{{ spotti.user }}"
+        mode: u=r,go=
+      notify: Reload spotti
+
+    - name: Template spotti.service
+      ansible.builtin.template:
+        src: ../configs/spotti.service.j2
+        dest: "/lib/systemd/system/spotti.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload spotti
+
+    - name: Install downbot dependencies
+      ansible.builtin.pip:
+        virtualenv: "{{ spotti.dir }}/python"
+        requirements: "{{ spotti.source_dir }}/bot/requirements.txt"
+        virtualenv_command: 'python3 -m venv'
+
+    - name: Copy downbot.py
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ spotti.source_dir }}/bot/downbot.py"
+        dest: "{{ spotti.dir }}"
+        owner: "{{ spotti.user }}"
+        mode: u=rx,go=
+      notify: Reload spotti_downbot
+
+    - name: Template spotti_downbot.toml
+      ansible.builtin.template:
+        src: ../configs/spotti_downbot.toml.j2
+        dest: "{{ spotti.dir }}/downbot.toml"
+        owner: "{{ spotti.user }}"
+        mode: u=r,go=
+      notify: Reload spotti_downbot
+
+    - name: Template spotti_downbot.service
+      ansible.builtin.template:
+        src: ../configs/spotti_downbot.service.j2
+        dest: "/lib/systemd/system/spotti_downbot.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload spotti_downbot
+
+    - name: Template spotti_downbot_cron.sh
+      ansible.builtin.template:
+        src: ../configs/spotti_downbot_cron.sh.j2
+        dest: "{{ spotti.dir }}/spotti_downbot_cron.sh"
+        mode: ugo=r
+      notify: Install spotti_downbot_cron job
+
+
+  handlers:
+
+    - name: Stop spotti
+      ansible.builtin.service:
+        name: spotti
+        state: stopped
+
+    - name: Copy spotti binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ spotti.source_dir }}/target/debug/spotti"
+        dest: "{{ spotti.dir }}"
+        owner: "{{ spotti.user }}"
+        mode: u=rx,go=
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Reload spotti
+      ansible.builtin.service:
+        name: spotti
+        state: restarted
+        enabled: true
+
+    - name: Reload spotti_downbot
+      ansible.builtin.service:
+        name: spotti_downbot
+        state: restarted
+        enabled: true
+
+    - name: Install spotti_downbot_cron job
+      ansible.builtin.cron:
+        name: query spotti status
+        minute: "*/5"
+        job: "bash {{ spotti.dir }}/spotti_downbot_cron.sh"

@@ -1,8 +1,0 @@
-thumbnail_dir = '{{ mount("syncthing-data") }}/thumbnails'
-file_dir = '{{ mount("syncthing-data") }}'
-thumbnail_size = 75
-page_root = '/files'
-bind = '0.0.0.0:16932'
-
-# done with nginx htpasswd
-#auth = '{{ SECRET["dop-user-pass"] }}'

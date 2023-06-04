@@ -5,3 +5,4 @@ Dockerfile
 mounts/*
 !mounts/README
 .vscode
+**/*secret*

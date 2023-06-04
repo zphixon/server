@@ -1,0 +1,65 @@
+# code: language=ansible
+- name: Deploy shrub_bot
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+    - ../configs/secret.yml
+
+  tasks:
+
+    - name: "Ensure shrub_bot.dir exists: {{ shrub_bot.dir }}"
+      ansible.builtin.file:
+        path: "{{ shrub_bot.dir }}"
+        state: directory
+        owner: "{{ shrub_bot.user }}"
+        mode: u=rwx,go=
+
+    - name: Template shrub_bot.toml
+      ansible.builtin.template:
+        src: ../configs/shrub_bot.toml.j2
+        dest: "{{ shrub_bot.dir }}/config.toml"
+        owner: "{{ shrub_bot.user }}"
+        mode: u=r,go=
+      notify: Reload shrub_bot
+
+    - name: Template shrub_bot.service
+      ansible.builtin.template:
+        src: ../configs/shrub_bot.service.j2
+        dest: "/lib/systemd/system/shrub_bot.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload shrub_bot
+
+    - name: Install downbot dependencies
+      ansible.builtin.pip:
+        virtualenv: "{{ shrub_bot.dir }}/python"
+        requirements: "{{ shrub_bot.source_dir }}/requirements.txt"
+        virtualenv_command: 'python3 -m venv'
+
+    - name: Copy shrub_bot.py
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ shrub_bot.source_dir }}/shrub_bot.py"
+        dest: "{{ shrub_bot.dir }}"
+        owner: "{{ shrub_bot.user }}"
+        mode: u=rx,go=
+      notify: Reload shrub_bot
+
+
+  handlers:
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Reload shrub_bot
+      ansible.builtin.service:
+        name: shrub_bot
+        state: restarted
+        enabled: true

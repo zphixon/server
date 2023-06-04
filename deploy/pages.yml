@@ -1,0 +1,19 @@
+# code: language=ansible
+- name: Deploy static pages
+  hosts: grape_surgery
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+    - name: Update static files
+      become: true
+      become_user: www-data
+      ansible.posix.synchronize:
+        src: ../www
+        dest: "{{ nginx.dir }}"
+        archive: false
+        checksum: true
+        delete: true
+        recursive: true
+        owner: false

@@ -1,0 +1,16 @@
+db_file = '{{ spotti.dir }}/recents.db'
+error_file = '{{ spotti.dir }}/status.txt'
+bot_pidfile = '{{ spotti.dir }}/bot-pid.txt'
+
+client_id = '{{ secret.spotti.client_id }}'
+client_secret = '{{ secret.spotti.client_secret }}'
+
+base_url = 'https://grape.surgery/spotti'
+
+{% for endpoint in spotti.endpoints %}
+{{ endpoint.name }}_endpoint = '{{ endpoint.value }}'
+{% endfor %}
+
+get_new_limit = 50
+
+address = '0.0.0.0:{{ spotti.port }}'

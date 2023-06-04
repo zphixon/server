@@ -1,0 +1,86 @@
+# code: language=ansible
+- name: Deploy dart_or_penny
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+    - ../configs/secret.yml
+
+  tasks:
+
+    - name: "Ensure dop.dir exists: {{ dop.dir }}"
+      ansible.builtin.file:
+        path: "{{ dop.dir }}"
+        state: directory
+        owner: "{{ dop.user }}"
+        mode: u=rwx,go=
+
+    - name: Build dart_or_penny binary
+      become: true
+      become_user: zack
+      ansible.builtin.shell: # noqa: command-instead-of-shell
+        chdir: "{{ dop.source_dir }}"
+        cmd: /home/zack/.cargo/bin/cargo b --release
+      register: build
+      changed_when: "'Compiling' in build.stderr"
+      notify:
+        - Stop dart_or_penny
+        - Copy dart_or_penny binary
+        - Reload dart_or_penny
+
+    - name: Template dart_or_penny.toml
+      ansible.builtin.template:
+        src: ../configs/dart_or_penny.toml.j2
+        dest: "{{ dop.dir }}/config.toml"
+        owner: "{{ dop.user }}"
+        mode: u=r,go=
+      notify: Reload dart_or_penny
+
+    - name: Template dart_or_penny.service
+      ansible.builtin.template:
+        src: ../configs/dart_or_penny.service.j2
+        dest: "/lib/systemd/system/dart_or_penny.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload dart_or_penny
+
+    - name: Ensure htpw2 exists
+      ansible.builtin.file:
+        state: file
+        path: "{{ nginx.dir }}/htpw2"
+
+    - name: Set dart_or_penny restart cron job
+      ansible.builtin.cron:
+        name: restart dop every 30 minutes
+        job: systemctl restart dart_or_penny
+        minute: "*/30"
+
+  handlers:
+
+    - name: Stop dart_or_penny
+      ansible.builtin.service:
+        name: dart_or_penny
+        state: stopped
+
+    - name: Copy dart_or_penny binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ dop.source_dir }}/target/release/dart-or-penny"
+        dest: "{{ dop.dir }}"
+        owner: "{{ dop.user }}"
+        mode: u=rx,go=
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Reload dart_or_penny
+      ansible.builtin.service:
+        name: dart_or_penny
+        state: restarted
+        enabled: true

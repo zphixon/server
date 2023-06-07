@@ -1,19 +1,50 @@
 # code: language=ansible
 - name: Deploy static pages
   hosts: grape_surgery
+  become: true
+  become_user: www-data
+
+  roles:
+    - server
 
   vars_files:
     - ../configs/vars.yml
 
   tasks:
+    - name: Remove static files
+      ansible.builtin.file:
+        state: absent
+        path: "{{ nginx.dir }}/www"
+
     - name: Update static files
-      become: true
-      become_user: www-data
-      ansible.posix.synchronize:
-        src: ../www
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ pages.html }}"
         dest: "{{ nginx.dir }}"
-        archive: false
-        checksum: true
-        delete: true
-        recursive: true
-        owner: false
+        mode: ug=rwx,o=r
+
+    - name: Build blog
+      become: true
+      become_user: zack
+      ansible.builtin.command:
+        cmd: zola build
+        chdir: "{{ pages.blog }}"
+      changed_when: true
+
+    - name: Remove blog
+      ansible.builtin.file:
+        state: absent
+        path: "{{ nginx.dir }}/www/grape.surgery/blog"
+
+    - name: Copy blog
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ pages.blog }}"
+        dest: "{{ nginx.dir }}/www/grape.surgery"
+        mode: ug=rwx,o=r
+
+    - name: Rename blog dir
+      ansible.builtin.command:
+        chdir: "{{ nginx.dir }}/www/grape.surgery"
+        cmd: mv public blog
+      changed_when: true

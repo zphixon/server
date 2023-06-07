@@ -5,6 +5,10 @@ nginx:
   custom_service: nginx-custom
   dir: /server/nginx
 
+pages:
+  html: /server/source/www
+  blog: /server/source/blog/public
+
 syncthing:
   user: syncthing
   dir: /server/syncthing

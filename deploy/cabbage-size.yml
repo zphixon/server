@@ -31,6 +31,15 @@
         - Stop cabbage size
         - Copy cs binary
         - Reload cabbage_size
+    - name: Ensure cs binary
+      ansible.builtin.stat:
+        path: "{{ cabbage_size.dir }}/cabbage-size"
+      register: cs_binary
+      changed_when: not cs_binary.stat.exists
+      notify:
+        - Stop cabbage size
+        - Copy cs binary
+        - Reload cabbage_size
 
     - name: Template cabbage_size.toml
       ansible.builtin.template:

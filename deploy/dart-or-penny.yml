@@ -31,6 +31,15 @@
         - Stop dart_or_penny
         - Copy dart_or_penny binary
         - Reload dart_or_penny
+    - name: Ensure dart_or_penny binary
+      ansible.builtin.stat:
+        path: "{{ dop.dir }}/dart-or-penny"
+      register: dop_binary
+      changed_when: not dop_binary.stat.exists
+      notify:
+        - Stop dart_or_penny
+        - Copy dart_or_penny binary
+        - Reload dart_or_penny
 
     - name: Template dart_or_penny.toml
       ansible.builtin.template:

@@ -31,6 +31,15 @@
         - Stop spotti
         - Copy spotti binary
         - Reload spotti
+    - name: Ensure spotti binary
+      ansible.builtin.stat:
+        path: "{{ spotti.dir }}/spotti"
+      register: spotti_binary
+      changed_when: not spotti_binary.stat.exists
+      notify:
+        - Stop spotti
+        - Copy spotti binary
+        - Reload spotti
 
     - name: Template spotti.toml
       ansible.builtin.template:

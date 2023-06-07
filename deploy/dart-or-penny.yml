@@ -84,10 +84,6 @@
         owner: "{{ dop.user }}"
         mode: u=rx,go=
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload dart_or_penny
       ansible.builtin.service:
         name: dart_or_penny

@@ -27,10 +27,6 @@
         src: ../configs/syncthing.service.j2
         dest: "{{ systemd_unit_dir }}/syncthing.service"
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload syncthing
       ansible.builtin.service:
         name: syncthing

@@ -113,10 +113,6 @@
         owner: "{{ spotti.user }}"
         mode: u=rx,go=
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload spotti
       ansible.builtin.service:
         name: spotti

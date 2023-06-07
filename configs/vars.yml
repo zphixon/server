@@ -1,3 +1,5 @@
+systemd_unit_dir: /lib/systemd/system
+
 nginx:
   user: www-data
   custom_service: nginx-custom

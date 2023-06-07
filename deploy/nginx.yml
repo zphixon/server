@@ -26,7 +26,7 @@
       ansible.builtin.template:
         mode: ugo=r
         src: ../configs/nginx.service.j2
-        dest: "/lib/systemd/system/{{ nginx.custom_service }}.service"
+        dest: "{{ systemd_unit_dir }}/{{ nginx.custom_service }}.service"
       notify: Reload systemd
 
     - name: Template nginx.conf

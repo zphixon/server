@@ -30,7 +30,7 @@
     - name: Template shrub_bot.service
       ansible.builtin.template:
         src: ../configs/shrub_bot.service.j2
-        dest: "/lib/systemd/system/shrub_bot.service"
+        dest: "{{ systemd_unit_dir }}/shrub_bot.service"
         mode: ugo=r
       notify:
         - Reload systemd

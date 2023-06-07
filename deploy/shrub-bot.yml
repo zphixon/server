@@ -54,10 +54,6 @@
 
   handlers:
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload shrub_bot
       ansible.builtin.service:
         name: shrub_bot

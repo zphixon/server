@@ -82,10 +82,6 @@
         owner: "{{ cabbage_size.user }}"
         mode: u=rx,go=
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload cabbage_size
       ansible.builtin.service:
         name: cabbage_size

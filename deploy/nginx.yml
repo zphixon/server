@@ -63,10 +63,6 @@
         state: stopped
         enabled: false
 
-    - name: Reload systemd
-      ansible.builtin.systemd:
-        daemon_reload: true
-
     - name: Reload nginx
       ansible.builtin.service:
         name: "{{ nginx.custom_service }}"

@@ -60,7 +60,7 @@
     - name: Template cabbage_size.service
       ansible.builtin.template:
         src: ../configs/cabbage_size.service.j2
-        dest: "/lib/systemd/system/cabbage_size.service"
+        dest: "{{ systemd_unit_dir }}/cabbage_size.service"
         mode: ugo=r
       notify:
         - Reload systemd

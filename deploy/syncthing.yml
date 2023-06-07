@@ -25,7 +25,7 @@
       ansible.builtin.template:
         mode: ugo=r
         src: ../configs/syncthing.service.j2
-        dest: "/lib/systemd/system/syncthing.service"
+        dest: "{{ systemd_unit_dir }}/syncthing.service"
 
     - name: Reload systemd
       ansible.builtin.systemd:

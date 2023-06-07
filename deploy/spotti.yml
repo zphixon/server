@@ -52,7 +52,7 @@
     - name: Template spotti.service
       ansible.builtin.template:
         src: ../configs/spotti.service.j2
-        dest: "/lib/systemd/system/spotti.service"
+        dest: "{{ systemd_unit_dir }}/spotti.service"
         mode: ugo=r
       notify:
         - Reload systemd
@@ -84,7 +84,7 @@
     - name: Template spotti_downbot.service
       ansible.builtin.template:
         src: ../configs/spotti_downbot.service.j2
-        dest: "/lib/systemd/system/spotti_downbot.service"
+        dest: "{{ systemd_unit_dir }}/spotti_downbot.service"
         mode: ugo=r
       notify:
         - Reload systemd

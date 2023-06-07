@@ -52,7 +52,7 @@
     - name: Template dart_or_penny.service
       ansible.builtin.template:
         src: ../configs/dart_or_penny.service.j2
-        dest: "/lib/systemd/system/dart_or_penny.service"
+        dest: "{{ systemd_unit_dir }}/dart_or_penny.service"
         mode: ugo=r
       notify:
         - Reload systemd

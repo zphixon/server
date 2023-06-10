@@ -17,7 +17,7 @@
         path: "{{ spotti.dir }}"
         state: directory
         owner: "{{ spotti.user }}"
-        mode: u=rwx,go=
+        mode: u=rwx,go=x
 
     - name: Build spotti binary
       become: true

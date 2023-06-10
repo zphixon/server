@@ -1,0 +1,14 @@
+[Unit]
+Description=datasette
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ datasette.user }}
+ExecStart=/usr/local/bin/datasette serve --host 0.0.0.0 --port {{ datasette.port }} --setting base_url {{ datasette.endpoint }} --immutable  {{ spotti.database }}
+
+[Install]
+WantedBy=multi-user.target

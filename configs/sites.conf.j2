@@ -41,6 +41,13 @@ server {
   }
   {% endfor %}
 
+  location {{ datasette.endpoint }} {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:{{ datasette.port }};
+    auth_basic "datasette";
+    auth_basic_user_file {{ nginx.dir }}/htpw2;
+  }
+
   location /files {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }};

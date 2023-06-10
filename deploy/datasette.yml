@@ -1,0 +1,33 @@
+# code: language=ansible
+- name: Deploy datasette
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+    - name: Install datasette
+      ansible.builtin.pip:
+        state: present
+        name: datasette
+
+    - name: Template datasette.service
+      ansible.builtin.template:
+        src: ../configs/datasette.service.j2
+        dest: "{{ systemd_unit_dir }}/datasette.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload datasette
+
+  handlers:
+
+    - name: Reload datasette
+      ansible.builtin.service:
+        name: datasette
+        state: restarted
+        enabled: true

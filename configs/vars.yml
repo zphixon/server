@@ -21,6 +21,7 @@ syncthing:
 spotti:
   user: spotti
   dir: /server/spotti
+  database: /server/spotti/recents.db
   source_dir: /server/source/spotti
   database_url: sqlite:///home/zack/server/mounts/spotti/recents.db
   port: 44554
@@ -56,3 +57,8 @@ cabbage_size:
   endpoints:
     - size
     - up
+
+datasette:
+  user: datasette
+  port: 12332
+  endpoint: /spotti/datasette

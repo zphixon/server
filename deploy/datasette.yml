@@ -24,6 +24,18 @@
         - Reload systemd
         - Reload datasette
 
+    - name: Template datasette-watch
+      ansible.builtin.template:
+        src: ../configs/datasette-watch.{{ item }}.j2
+        dest: "{{ systemd_unit_dir }}/datasette-watch.{{ item }}"
+        mode: ugo=r
+      with_items:
+        - service
+        - path
+      notify:
+        - Reload systemd
+        - Reload datasette-watch
+
   handlers:
 
     - name: Reload datasette
@@ -31,3 +43,12 @@
         name: datasette
         state: restarted
         enabled: true
+
+    - name: Reload datasette-watch
+      ansible.builtin.service:
+        name: datasette-watch.{{ item }}
+        state: restarted
+        enabled: true
+      with_items:
+        - service
+        - path

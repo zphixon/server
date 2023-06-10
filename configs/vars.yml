@@ -61,4 +61,4 @@ cabbage_size:
 datasette:
   user: datasette
   port: 12332
-  endpoint: /spotti/datasette
+  endpoint: /spotti/datasette/

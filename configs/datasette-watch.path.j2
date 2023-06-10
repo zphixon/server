@@ -1,0 +1,8 @@
+# https://superuser.com/questions/1171751/restart-systemd-service-automatically-whenever-a-directory-changes-any-file-ins
+
+[Path]
+Unit=datasette-watch.service
+PathChanged={{ spotti.database }}
+
+[Install]
+WantedBy=multi-user.target

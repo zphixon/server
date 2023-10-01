@@ -35,9 +35,9 @@ server {
   }
 
   {% for endpoint in spotti.endpoints %}
-  location /spotti{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }} {
+  location /music{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }} {
     proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:{{ spotti.port }}/spotti{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }};
+    proxy_pass http://localhost:{{ spotti.port }}/music{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }};
   }
   {% endfor %}
 

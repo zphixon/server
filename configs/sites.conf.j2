@@ -2,7 +2,7 @@
 
 server {
   server_name gang-and-friends.com;
-  listen 80;
+  listen [::]:80;
   root {{ nginx.dir }}/www/gang-and-friends.com;
   index index.html;
   location / {
@@ -12,7 +12,7 @@ server {
 
 server {
   server_name oatmeal.gay;
-  listen 80;
+  listen [::]:80;
   root {{ nginx.dir }}/www/oatmeal.gay;
   index index.html;
   location / {
@@ -22,7 +22,7 @@ server {
 
 server {
   server_name grape.surgery;
-  listen 80;
+  listen [::]:80;
   root {{ nginx.dir }}/www/grape.surgery;
   index index.html;
   location / {

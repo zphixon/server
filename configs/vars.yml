@@ -13,6 +13,7 @@ syncthing:
   user: syncthing
   dir: /server/syncthing
   data_dir: /mnt/syncthing
+  endpoint: /sync/
   ports:
     gui: 8384
     data_public: 22000
@@ -61,4 +62,4 @@ cabbage_size:
 datasette:
   user: datasette
   port: 12332
-  endpoint: /spotti/datasette/
+  endpoint: /music/datasette/

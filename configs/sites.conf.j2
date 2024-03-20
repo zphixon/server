@@ -29,7 +29,7 @@ server {
     try_files $uri $uri/ =404;
   }
 
-  location /sync/ {
+  location {{ syncthing.endpoint }} {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_pass http://localhost:{{ syncthing.ports.gui }}/;
   }
@@ -48,7 +48,7 @@ server {
     auth_basic_user_file {{ nginx.dir }}/htpw2;
   }
 
-  location /files {
+  location {{ dop.page_root }} {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }};
     auth_basic "files";

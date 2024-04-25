@@ -71,4 +71,19 @@ server {
     proxy_set_header Connection "Upgrade";
     proxy_set_header Host $host;
   }
+
+  location {{ topspin.page_root }} {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Prefix {{ topspin.page_root }}; # does this do anything?
+    proxy_pass http://localhost:{{ topspin.port }};
+  }
+  location {{ topspin.page_root }}/_nicegui_ws {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Prefix {{ topspin.page_root }};
+    proxy_pass http://localhost:{{ topspin.port }};
+    proxy_http_version 1.1;
+    proxy_set_header Connection "Upgrade";
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Host $host;
+  }
 }

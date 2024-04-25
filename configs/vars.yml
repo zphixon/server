@@ -63,3 +63,12 @@ datasette:
   user: datasette
   port: 12332
   endpoint: /music/datasette/
+
+topspin:
+  user: topspin
+  dir: /server/topspin
+  repo: https://github.com/zphixon/topspin
+  branch: fix-stuff
+  port: 12577
+  page_root: /topspin
+  db_file: /mnt/topspin.json

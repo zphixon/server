@@ -76,6 +76,8 @@ server {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-Prefix {{ topspin.page_root }}; # does this do anything?
     proxy_pass http://localhost:{{ topspin.port }};
+    auth_basic "topspin";
+    auth_basic_user_file {{ nginx.dir }}/htpw2;
   }
   location {{ topspin.page_root }}/_nicegui_ws {
     proxy_set_header X-Real-IP $remote_addr;
@@ -85,5 +87,7 @@ server {
     proxy_set_header Connection "Upgrade";
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Host $host;
+    auth_basic "topspin";
+    auth_basic_user_file {{ nginx.dir }}/htpw2;
   }
 }

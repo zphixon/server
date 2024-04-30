@@ -5,7 +5,7 @@ bot_pidfile = '{{ spotti.dir }}/bot-pid.txt'
 client_id = '{{ secret.spotti.client_id }}'
 client_secret = '{{ secret.spotti.client_secret }}'
 
-base_url = 'https://grape.surgery/music'
+base_url = 'https://grape.surgery{{ spotti.web_root }}'
 
 {% for endpoint in spotti.endpoints %}
 {{ endpoint.name }}_endpoint = '{{ endpoint.value }}'

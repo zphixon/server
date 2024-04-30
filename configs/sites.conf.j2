@@ -56,7 +56,7 @@ server {
   }
 
   {% for endpoint in cabbage_size.endpoints %}
-  location /cabbage/{{ endpoint }} {
+  location {{ cabbage_size.web_root }}/{{ endpoint }} {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_pass http://localhost:{{ cabbage_size.port }}/{{ endpoint }};
   }

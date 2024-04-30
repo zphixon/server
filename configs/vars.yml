@@ -26,6 +26,7 @@ spotti:
   source_dir: /server/source/spotti
   database_url: sqlite:///home/zack/server/mounts/spotti/recents.db
   port: 44554
+  web_root: /music
   endpoints:
     - name: authorize
       value: authorize

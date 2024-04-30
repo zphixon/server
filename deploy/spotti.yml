@@ -62,7 +62,7 @@
       ansible.builtin.pip:
         virtualenv: "{{ spotti.dir }}/python"
         requirements: "{{ spotti.source_dir }}/bot/requirements.txt"
-        virtualenv_command: 'python3 -m venv'
+        virtualenv_command: '{{ python_interpreter }} -m venv'
 
     - name: Copy downbot.py
       ansible.builtin.copy:

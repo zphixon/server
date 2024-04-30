@@ -1,4 +1,5 @@
 systemd_unit_dir: /lib/systemd/system
+python_interpreter: /server/python-3.12.3/bin/python3
 
 nginx:
   user: www-data

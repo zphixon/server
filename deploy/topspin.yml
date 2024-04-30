@@ -39,6 +39,8 @@
         virtualenv: "{{ topspin.dir }}/python"
         requirements: "{{ topspin.dir }}/requirements.txt"
         virtualenv_command: 'python3 -m venv'
+        # ???
+        #virtualenv_command: '{{ python_interpreter }} -m venv'
 
     - name: "Ensure topspin.user owns topspin.dir: {{ topspin.user }}"
       ansible.builtin.file:

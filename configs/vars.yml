@@ -55,6 +55,7 @@ cabbage_size:
   user: cabbage_size
   dir: /server/cabbage_size
   source_dir: /server/source/cabbage-size
+  web_root: /cabbage
   port: 12002
   endpoints:
     - size

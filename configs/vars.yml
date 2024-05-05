@@ -25,7 +25,7 @@ spotti:
   dir: /server/spotti
   database: /server/spotti/recents.db
   source_dir: /server/source/spotti
-  database_url: sqlite:///home/zack/server/mounts/spotti/recents.db
+  database_url: sqlite:///server/spotti/recents.db
   port: 44554
   web_root: /music
   endpoints:

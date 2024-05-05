@@ -62,7 +62,7 @@
       ansible.builtin.pip:
         virtualenv: "{{ spotti.dir }}/python"
         requirements: "{{ spotti.source_dir }}/bot/requirements.txt"
-        virtualenv_command: 'python3 -m venv'
+        virtualenv_command: '{{ python_interpreter }} -m venv'
 
     - name: Copy downbot.py
       ansible.builtin.copy:
@@ -90,14 +90,6 @@
         - Reload systemd
         - Reload spotti_downbot
 
-    - name: Template spotti_downbot_cron.sh
-      ansible.builtin.template:
-        src: ../configs/spotti_downbot_cron.sh.j2
-        dest: "{{ spotti.dir }}/spotti_downbot_cron.sh"
-        mode: ugo=r
-      notify: Install spotti_downbot_cron job
-
-
   handlers:
 
     - name: Stop spotti
@@ -124,9 +116,3 @@
         name: spotti_downbot
         state: restarted
         enabled: true
-
-    - name: Install spotti_downbot_cron job
-      ansible.builtin.cron:
-        name: query spotti status
-        minute: "*/5"
-        job: "bash {{ spotti.dir }}/spotti_downbot_cron.sh"

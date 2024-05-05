@@ -1,0 +1,67 @@
+# code: language=ansible
+- name: Deploy topspin
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+
+    - name: "Destroy topspin.dir: {{ topspin.dir }}"
+      ansible.builtin.file:
+        path: "{{ topspin.dir }}"
+        state: absent
+
+    - name: Template topspin.service
+      ansible.builtin.template:
+        src: ../configs/topspin.service.j2
+        dest: "{{ systemd_unit_dir }}/topspin.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload topspin
+
+    - name: Checkout topspin source
+      ansible.builtin.git:
+        repo: "{{ topspin.repo }}"
+        dest: "{{ topspin.dir }}"
+        version: "{{ topspin.branch }}"
+        depth: 1
+        force: true
+      notify: Reload topspin
+
+    - name: Install topspin dependencies
+      ansible.builtin.pip:
+        virtualenv: "{{ topspin.dir }}/python"
+        requirements: "{{ topspin.dir }}/requirements.txt"
+        virtualenv_command: 'python3 -m venv'
+        # ???
+        #virtualenv_command: '{{ python_interpreter }} -m venv'
+
+    - name: "Ensure topspin.user owns topspin.dir: {{ topspin.user }}"
+      ansible.builtin.file:
+        path: "{{ topspin.dir }}"
+        owner: "{{ topspin.user }}"
+        mode: u=rwx,go=
+        recurse: true
+
+    - name: Template topspin.cfg
+      ansible.builtin.template:
+        src: ../configs/topspin.cfg.j2
+        dest: "{{ topspin.dir }}/config.cfg"
+        owner: "{{ topspin.user }}"
+        mode: u=r,go=
+      notify: Reload topspin
+
+
+  handlers:
+
+    - name: Reload topspin
+      ansible.builtin.service:
+        name: topspin
+        state: restarted
+        enabled: true

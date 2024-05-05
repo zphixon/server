@@ -1,4 +1,5 @@
 systemd_unit_dir: /lib/systemd/system
+python_interpreter: /server/python-3.12.3/bin/python3
 
 nginx:
   user: www-data
@@ -26,6 +27,7 @@ spotti:
   source_dir: /server/source/spotti
   database_url: sqlite:///home/zack/server/mounts/spotti/recents.db
   port: 44554
+  web_root: /music
   endpoints:
     - name: authorize
       value: authorize
@@ -54,6 +56,7 @@ cabbage_size:
   user: cabbage_size
   dir: /server/cabbage_size
   source_dir: /server/source/cabbage-size
+  web_root: /cabbage
   port: 12002
   endpoints:
     - size
@@ -63,3 +66,12 @@ datasette:
   user: datasette
   port: 12332
   endpoint: /music/datasette/
+
+topspin:
+  user: topspin
+  dir: /server/topspin
+  repo: https://github.com/zphixon/topspin
+  branch: fix-stuff
+  port: 12577
+  page_root: /topspin
+  db_file: /mnt/topspin.json

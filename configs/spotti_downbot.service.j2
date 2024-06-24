@@ -2,7 +2,6 @@
 Description=spotti discord downbot
 After=network.target
 StartLimitIntervalSec=0
-SystemOutput=journal+console
 
 [Service]
 Type=simple
@@ -10,6 +9,8 @@ Restart=always
 RestartSec=1
 User={{ spotti.user }}
 ExecStart={{ spotti.dir }}/python/bin/python3 {{ spotti.dir }}/downbot.py {{ spotti.dir }}/downbot.toml
+StandardOutput=journal+console
 
 [Install]
 WantedBy=multi-user.target
+

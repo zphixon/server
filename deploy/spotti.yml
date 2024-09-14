@@ -23,13 +23,14 @@
       become_user: zack
       ansible.builtin.shell: # noqa: command-instead-of-shell
         chdir: "{{ spotti.source_dir }}"
-        cmd: DATABASE_URL={{ spotti.database_url }} /home/zack/.cargo/bin/cargo b
+        cmd: DATABASE_URL={{ spotti.database_url }} /home/zack/.cargo/bin/cargo build --release
       register: build
       changed_when: "'Compiling' in build.stderr"
       notify:
         - Stop spotti
         - Copy spotti binary
         - Reload spotti
+
     - name: Ensure spotti binary
       ansible.builtin.stat:
         path: "{{ spotti.dir }}/spotti"
@@ -99,7 +100,7 @@
     - name: Copy spotti binary
       ansible.builtin.copy:
         remote_src: true
-        src: "{{ spotti.source_dir }}/target/debug/spotti"
+        src: "{{ spotti.source_dir }}/target/release/spotti"
         dest: "{{ spotti.dir }}"
         owner: "{{ spotti.user }}"
         mode: u=rx,go=

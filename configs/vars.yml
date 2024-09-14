@@ -51,27 +51,3 @@ dop:
   source_dir: /server/source/dart-or-penny
   port: 16932
   page_root: /files
-
-cabbage_size:
-  user: cabbage_size
-  dir: /server/cabbage_size
-  source_dir: /server/source/cabbage-size
-  web_root: /cabbage
-  port: 12002
-  endpoints:
-    - size
-    - up
-
-datasette:
-  user: datasette
-  port: 12332
-  endpoint: /music/datasette/
-
-topspin:
-  user: topspin
-  dir: /server/topspin
-  repo: https://github.com/zphixon/topspin
-  branch: fix-stuff
-  port: 12577
-  page_root: /topspin
-  db_file: /mnt/topspin.json

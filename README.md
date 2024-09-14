@@ -23,9 +23,7 @@ ansible-playbook -e @secret.yml -i hosts.ini -k dart-or-penny.yml
 
 ## caveats
 
-- the htpasswd file for dart-or-penny is a little fucky. it needs to be staged
-  manually in the nginx.dir directory. see deploy/nginx.yml
-- the certs are also a little fucky. certbot is annoying in that it persists
+- the certs are a little fucky. certbot is annoying in that it persists
   some data when you create certs.
 - the dop user needs read permissions in the syncthing.data_dir and write perms
   in syncthing.data_dir/thumbnails

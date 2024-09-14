@@ -29,3 +29,4 @@
         syncdir {{ syncthing.data_dir }} --exclude='{{ syncthing.data_dir }}/thumbnails/*'
         syncfile {{ spotti.database }}
         syncdir {{ syncthing.dir }} --exclude=stdout.log
+        syncfile {{ nginx.htpasswd }}

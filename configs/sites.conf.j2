@@ -44,7 +44,7 @@ server {
   location {{ dop.page_root }} {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }};
-    auth_basic "files";
-    auth_basic_user_file {{ nginx.dir }}/htpw2;
+    auth_basic "{{ dop.auth_realm }}";
+    auth_basic_user_file {{ nginx.htpasswd }};
   }
 }

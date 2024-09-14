@@ -38,7 +38,7 @@
     - name: Template sites.conf
       ansible.builtin.template:
         owner: "{{ nginx.user }}"
-        mode: ugo=r
+        mode: ug=rw,o=r
         src: ../configs/sites.conf.j2
         dest: "{{ nginx.dir }}/sites.conf"
 
@@ -46,6 +46,12 @@
       ansible.builtin.command:
         certbot --reinstall --nginx --nginx-server-root {{ nginx.dir }} --cert-name allOfEm
       changed_when: true
+
+    - name: Turn on IPv4
+      ansible.builtin.replace:
+        path: "{{ nginx.dir }}/sites.conf"
+        regexp: ipv6only=on
+        replace: ipv6only=off
 
     - name: Stop nginx (https://github.com/certbot/certbot/issues/5486)
       ansible.builtin.command:

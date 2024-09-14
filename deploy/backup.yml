@@ -1,0 +1,31 @@
+# code: language=ansible
+- name: Back up everything
+  hosts: grape_surgery
+  become: true
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+
+    - name: Run backup
+      ansible.builtin.shell: |
+        set -xe
+
+        export AWS_ACCESS_KEY_ID={{ secret.aws.id }}
+        export AWS_SECRET_ACCESS_KEY={{ secret.aws.key }}
+        export AWS_DEFAULT_REGION={{ secret.aws.region }}
+
+        syncdir() {
+          file="$1"
+          shift
+          aws s3 sync $file {{ secret.aws.s3.bucket3 }} $@ --storage-class {{ secret.aws.s3.storage_class }}
+        }
+
+        syncfile() {
+          syncdir $(dirname $1) --exclude='*' "--include=$(basename $1)"
+        }
+
+        syncdir {{ syncthing.data_dir }} --exclude='{{ syncthing.data_dir }}/thumbnails/*'
+        syncfile {{ spotti.database }}
+        syncdir {{ syncthing.dir }} --exclude=stdout.log

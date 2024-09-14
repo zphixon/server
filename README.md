@@ -13,13 +13,12 @@ my server. slightly cursed.
 
 ```bash
 cd deploy
-ansible-playbook nginx.yml
-ansible-playbook syncthing.yml
-ansible-playbook shrub-bot.yml
-ansible-playbook spotti.yml
-ansible-playbook pages.yml
-ansible-playbook cabbage-size.yml
-ansible-playbook dart-or-penny.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k nginx.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k syncthing.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k shrub-bot.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k spotti.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k pages.yml
+ansible-playbook -e @secret.yml -i hosts.ini -k dart-or-penny.yml
 ```
 
 ## caveats

@@ -21,10 +21,25 @@ server {
 }
 
 server {
+  server_name {{ gts.host }};
+  listen [::]:80;
+
+  location / {
+    proxy_pass http://127.0.0.1:{{ gts.port }};
+    proxy_set_header Host $host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}
+
+server {
   server_name grape.surgery;
   listen [::]:80;
   root {{ nginx.dir }}/www/grape.surgery;
   index index.html;
+
   location / {
     try_files $uri $uri/ =404;
   }

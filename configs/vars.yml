@@ -55,3 +55,13 @@ dop:
   port: 16932
   page_root: /files
   auth_realm: files
+
+gts:
+  user: gts
+  dir: /server/gts
+  port: 30020
+  host: robotic.grape.surgery
+  version: 0.16.0
+  storage: /mnt/gts
+  db: /mnt/gts/sqlite.db
+

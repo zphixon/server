@@ -6,3 +6,4 @@ mounts/*
 !mounts/README
 .vscode
 **/*secret*
+*.swp

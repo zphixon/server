@@ -1,0 +1,25 @@
+[Unit]
+Description=GoToSocial
+After=network.target
+
+[Service]
+User={{ gts.user }}
+ExecStart={{ gts.dir }}/gotosocial --config-path {{ gts.dir}}/config.yaml server start
+WorkingDirectory={{ gts.dir }}
+Restart=on-failure
+RestartSec=1
+SuccessExitStatus=3 4
+RestartForceExitStatus=3 4
+
+StandardOutput=append:{{ gts.dir }}/stdout.log
+StandardError=append:{{ gts.dir }}/stderr.log
+
+# Hardening
+ProtectSystem=full
+PrivateTmp=true
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

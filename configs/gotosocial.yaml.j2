@@ -1,0 +1,29 @@
+landing-page-user: "zack"
+host: "{{ gts.host }}"
+# account-domain: ""
+bind-address: "localhost"
+port: {{ gts.port }}
+db-type: "sqlite"
+db-address: "{{ gts.db }}"
+db-max-open-conns-multiplier: 4
+instance-languages: ["en-us"]
+instance-federation-mode: "blocklist"
+instance-expose-peers: false
+instance-expose-suspended: false
+instance-expose-suspended-web: false
+instance-expose-public-timeline: false
+# instance-inject-mastodon-version: true
+accounts-registration-open: false
+accounts-allow-custom-css: true
+accounts-custom-css-length: 10000
+media-remote-cache-days: 3
+storage-backend: "local"
+storage-local-base-path: "{{ gts.storage }}"
+# web-template-base-dir: "{{ gts.dir }}/web/template/"
+# web-asset-base-dir: "{{ gts.dir }}/web/assets/"
+statuses-max-chars: 30000
+statuses-poll-max-options: 25
+statuses-poll-option-max-chars: 500
+statuses-media-max-files: 20
+advanced-cookies-samesite: "strict"
+advanced-sender-multiplier: 2

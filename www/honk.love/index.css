@@ -1,0 +1,24 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: serif;
+    background-color: #fff9f2;
+}
+
+#outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+a {
+    text-decoration: underline;
+    color: #83254f;
+}
+

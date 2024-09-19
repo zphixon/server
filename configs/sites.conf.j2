@@ -21,11 +21,12 @@ server {
 }
 
 server {
-  server_name {{ gts.host }};
+  server_name honk.love;
   listen [::]:80;
-
+  root {{ nginx.dir }}/www/honk.love;
+  index index.html;
   location / {
-    return 410;
+    try_files $uri $uri/ =404;
   }
 }
 

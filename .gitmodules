@@ -13,6 +13,3 @@
 [submodule "dart-or-penny"]
 	path = dart-or-penny
 	url = git@github.com:zphixon/dart-or-penny.git
-[submodule "blog"]
-	path = blog
-	url = git@github.com:zphixon/blog.git

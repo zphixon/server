@@ -34,7 +34,7 @@
     - name: Remove blog
       ansible.builtin.file:
         state: absent
-        path: "{{ nginx.dir }}/www/grape.surgery/blog"
+        path: "{{ nginx.dir }}/www/grape.surgery"
 
     - name: Copy blog
       ansible.builtin.copy:
@@ -42,9 +42,3 @@
         src: "{{ pages.blog }}"
         dest: "{{ nginx.dir }}/www/grape.surgery"
         mode: ug=rwx,o=r
-
-    - name: Rename blog dir
-      ansible.builtin.command:
-        chdir: "{{ nginx.dir }}/www/grape.surgery"
-        cmd: mv public blog
-      changed_when: true

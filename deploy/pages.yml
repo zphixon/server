@@ -39,6 +39,6 @@
     - name: Copy blog
       ansible.builtin.copy:
         remote_src: true
-        src: "{{ pages.blog }}"
+        src: "{{ pages.blog }}/"
         dest: "{{ nginx.dir }}/www/grape.surgery"
         mode: ug=rwx,o=r

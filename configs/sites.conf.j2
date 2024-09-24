@@ -61,4 +61,13 @@ server {
     auth_basic "{{ dop.auth_realm }}";
     auth_basic_user_file {{ nginx.htpasswd }};
   }
+
+  {% for endpoint in blog_editor.endpoints %}
+  location /{{ endpoint }} {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:{{ blog_editor.port }}/{{ endpoint }};
+    auth_basic "{{ dop.auth_realm }}";
+    auth_basic_user_file {{ nginx.htpasswd }};
+  }
+  {% endfor %}
 }

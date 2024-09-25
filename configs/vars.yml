@@ -9,7 +9,11 @@ nginx:
 
 pages:
   html: /server/source/www
-  blog: /server/source/blog/public
+  blog:
+    repo: /server/source/blog
+    build: /server/source/blog/public
+    # TODO better permissions. this might be broken when deploying pages.yml
+    dest: /server/nginx/www/grape.surgery
 
 syncthing:
   user: syncthing
@@ -65,3 +69,9 @@ gts:
   storage: /mnt/gts
   db: /mnt/gts/sqlite.db
 
+blog_editor:
+  port: 2222
+  endpoints: [publish, edit, revert]
+  dir: /server/blog_editor
+  user: blog_editor
+  source_dir: /server/source/editor

@@ -2,7 +2,7 @@
 - name: Deploy static pages
   hosts: grape_surgery
   become: true
-  become_user: www-data
+  become_user: "{{ nginx.user }}"
 
   roles:
     - server
@@ -28,17 +28,20 @@
       become_user: zack
       ansible.builtin.command:
         cmd: zola build
-        chdir: "{{ pages.blog }}"
+        chdir: "{{ pages.blog.repo }}"
       changed_when: true
 
     - name: Remove blog
+      become: true
       ansible.builtin.file:
         state: absent
-        path: "{{ nginx.dir }}/www/grape.surgery"
+        path: "{{ pages.blog.dest }}"
 
     - name: Copy blog
+      become: true
       ansible.builtin.copy:
         remote_src: true
-        src: "{{ pages.blog }}/"
-        dest: "{{ nginx.dir }}/www/grape.surgery"
+        src: "{{ pages.blog.build }}/"
+        dest: "{{ pages.blog.dest }}"
         mode: ug=rwx,o=r
+        owner: "{{ nginx.user }}"

@@ -1,0 +1,80 @@
+# code: language=ansible
+- name: Deploy blog editor
+  hosts: grape_surgery
+  become: true
+
+  roles:
+    - server
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+
+    - name: "Ensure blog_editor.dir exists: {{ blog_editor.dir }}"
+      ansible.builtin.file:
+        path: "{{ blog_editor.dir }}"
+        state: directory
+        owner: "{{ blog_editor.user }}"
+        mode: u=rwx,go=x
+
+    - name: Build blog editor binary
+      become: true
+      become_user: zack
+      ansible.builtin.shell: # noqa: command-instead-of-shell
+        chdir: "{{ blog_editor.source_dir }}"
+        cmd: /home/zack/.cargo/bin/cargo build --release
+      register: build
+      changed_when: "'Compiling' in build.stderr"
+      notify:
+        - Stop blog editor
+        - Copy blog editor binary
+        - Reload blog editor
+
+    - name: Ensure blog editor binary
+      ansible.builtin.stat:
+        path: "{{ blog_editor.dir }}/editor"
+      register: blog_editor_binary
+      changed_when: not blog_editor_binary.stat.exists
+      notify:
+        - Stop blog editor
+        - Copy blog editor binary
+        - Reload blog editor
+
+    - name: Template blog_editor.toml
+      ansible.builtin.template:
+        src: ../configs/blog_editor.toml.j2
+        dest: "{{ blog_editor.dir }}/config.toml"
+        owner: "{{ blog_editor.user }}"
+        mode: u=r,go=
+      notify: Reload blog editor
+
+    - name: Template blog_editor.service
+      ansible.builtin.template:
+        src: ../configs/blog_editor.service.j2
+        dest: "{{ systemd_unit_dir }}/blog_editor.service"
+        mode: ugo=r
+      notify:
+        - Reload systemd
+        - Reload blog editor
+
+  handlers:
+
+    - name: Stop blog editor
+      ansible.builtin.service:
+        name: blog_editor
+        state: stopped
+
+    - name: Copy blog editor binary
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ blog_editor.source_dir }}/target/release/editor"
+        dest: "{{ blog_editor.dir }}"
+        owner: "{{ blog_editor.user }}"
+        mode: u=rx,go=
+
+    - name: Reload blog editor
+      ansible.builtin.service:
+        name: blog_editor
+        state: restarted
+        enabled: true

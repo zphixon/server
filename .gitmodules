@@ -16,6 +16,6 @@
 [submodule "blog"]
 	path = blog
 	url = git@github.com:zphixon/blog.git
-[submodule "editor"]
-	path = editor
-	url = https://github.com/zphixon/editor
+[submodule "blog2"]
+	path = blog2
+	url = git@github.com:zphixon/blog2

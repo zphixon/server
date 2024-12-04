@@ -9,6 +9,7 @@ Restart=always
 RestartSec=1
 User={{ dop.user }}
 ExecStart={{ dop.dir }}/dart-or-penny {{ dop.dir }}/config.toml
+Environment=RUST_BACKTRACE=1
 
 [Install]
 WantedBy=multi-user.target

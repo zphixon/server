@@ -13,3 +13,7 @@
 [submodule "blog"]
 	path = blog
 	url = git@github.com:zphixon/blog.git
+[submodule "palettizer"]
+	path = palettizer
+	url = https://github.com/zphixon/palettizer
+	branch = main

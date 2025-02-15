@@ -59,3 +59,10 @@ dop:
   port: 16932
   page_root: /files
   auth_realm: files
+
+palettizer:
+  user: palettizer
+  dir: /server/palettizer
+  source_dir: /server/source/palettizer
+  port: 30305
+  root: /palettizer

@@ -1,0 +1,14 @@
+[Unit]
+Description=palettizer
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User={{ palettizer.user }}
+ExecStart={{ palettizer.dir }}/palettizer {{ palettizer.dir }}/config.toml
+
+[Install]
+WantedBy=multi-user.target

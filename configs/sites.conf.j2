@@ -61,4 +61,9 @@ server {
     auth_basic "{{ dop.auth_realm }}";
     auth_basic_user_file {{ nginx.htpasswd }};
   }
+
+  location {{ palettizer.root }} {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:{{ palettizer.port }}{{ palettizer.root }};
+  }
 }

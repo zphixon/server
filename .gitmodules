@@ -7,15 +7,9 @@
 [submodule "cabbage-size"]
 	path = cabbage-size
 	url = git@github.com:zphixon/cabbage-size.git
-[submodule "not-cron"]
-	path = not-cron
-	url = git@github.com:zphixon/not-cron.git
 [submodule "dart-or-penny"]
 	path = dart-or-penny
 	url = git@github.com:zphixon/dart-or-penny.git
 [submodule "blog"]
 	path = blog
 	url = git@github.com:zphixon/blog.git
-[submodule "blog2"]
-	path = blog2
-	url = git@github.com:zphixon/blog2

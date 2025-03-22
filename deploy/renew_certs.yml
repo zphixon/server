@@ -1,0 +1,15 @@
+- name: Renew SSL certificate
+  hosts: grape_surgery
+  become: true
+
+  vars_files:
+    - ../configs/vars.yml
+
+  tasks:
+    - name: Run certbot
+      ansible.builtin.shell: |
+        certbot certonly \
+          --cert-name {{ nginx.cert_name }} \
+          --nginx --nginx-server-root {{ nginx.dir }} \
+          --keep \
+          -d {{ nginx.domains | map(attribute='name') | join(',') }}

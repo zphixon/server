@@ -31,5 +31,4 @@ ansible-playbook -e @secret.yml -i hosts.ini -k dart-or-penny.yml
 ## todo
 
 - a lot of the stuff in the config files could still be templated out
-- ssl cert renewal
 - syncthing configs (how?)

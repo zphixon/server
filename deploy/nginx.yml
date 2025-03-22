@@ -42,6 +42,15 @@
         src: ../configs/sites.conf.j2
         dest: "{{ nginx.dir }}/sites.conf"
 
+    - name: Template domain confs
+      ansible.builtin.template:
+        owner: "{{ nginx.user }}"
+        mode: ug=rw,o=r
+        src: "../configs/{{ item.name }}.conf.j2"
+        dest: "{{ nginx.dir }}/{{ item.name }}.conf"
+      with_items: "{{ nginx.domains }}"
+      when: "'include' in item"
+
     - name: Reinstall certificates
       ansible.builtin.command:
         certbot --reinstall --nginx --nginx-server-root {{ nginx.dir }} --cert-name allOfEm

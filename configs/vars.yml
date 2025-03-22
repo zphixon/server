@@ -7,6 +7,13 @@ nginx:
   dir: /server/nginx
   htpasswd: /server/nginx/htpasswd.new
 
+  domains:
+    - name: gang-and-friends.com
+    - name: oatmeal.gay
+    - name: honk.love
+    - name: grape.surgery
+      include: grape.surgery.conf
+
 pages:
   html: /server/source/www
   blog:

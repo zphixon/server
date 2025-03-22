@@ -1,69 +1,14 @@
-# vim: et ts=2 sw=2 ft=nginx
-
+{% for domain in nginx.domains %}
 server {
-  server_name gang-and-friends.com;
+  server_name {{ domain.name }};
   listen [::]:80;
-  root {{ nginx.dir }}/www/gang-and-friends.com;
+  root {{ nginx.dir }}/www/{{ domain.name }};
   index index.html;
   location / {
     try_files $uri $uri/ =404;
   }
+  {% if 'include' in domain %}
+  include {{ domain.include }};
+  {% endif %}
 }
-
-server {
-  server_name oatmeal.gay;
-  listen [::]:80;
-  root {{ nginx.dir }}/www/oatmeal.gay;
-  index index.html;
-  location / {
-    try_files $uri $uri/ =404;
-  }
-}
-
-server {
-  server_name honk.love;
-  listen [::]:80;
-  root {{ nginx.dir }}/www/honk.love;
-  index index.html;
-  location / {
-    try_files $uri $uri/ =404;
-  }
-}
-
-server {
-  server_name grape.surgery;
-  listen [::]:80;
-  root {{ nginx.dir }}/www/grape.surgery;
-  index index.html;
-
-  location / {
-    try_files $uri $uri/ =404;
-  }
-
-  location {{ syncthing.endpoint }} {
-    proxy_set_header Host localhost;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_pass http://localhost:{{ syncthing.ports.gui }}/;
-  }
-
-  {% for endpoint in spotti.endpoints %}
-  location {{ spotti.web_root }}{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }} {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:{{ spotti.port }}{{ spotti.web_root }}{{ ('/' ~ endpoint.value) if endpoint.value != '' else '' }};
-  }
-  {% endfor %}
-
-  location {{ dop.page_root }} {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }};
-    auth_basic "{{ dop.auth_realm }}";
-    auth_basic_user_file {{ nginx.htpasswd }};
-  }
-
-  location {{ palettizer.root }} {
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_pass http://localhost:{{ palettizer.port }}{{ palettizer.root }};
-  }
-}
+{% endfor %}

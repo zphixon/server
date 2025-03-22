@@ -14,6 +14,7 @@ nginx:
     - name: honk.love
     - name: grape.surgery
       include: grape.surgery.conf
+    - name: xdd.farm
 
 pages:
   html: /server/source/www

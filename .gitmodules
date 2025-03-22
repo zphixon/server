@@ -4,9 +4,6 @@
 [submodule "spotti"]
 	path = spotti
 	url = git@github.com:zphixon/spotti.git
-[submodule "cabbage-size"]
-	path = cabbage-size
-	url = git@github.com:zphixon/cabbage-size.git
 [submodule "dart-or-penny"]
 	path = dart-or-penny
 	url = git@github.com:zphixon/dart-or-penny.git

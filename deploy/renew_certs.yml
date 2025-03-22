@@ -11,5 +11,5 @@
         certbot certonly \
           --cert-name {{ nginx.cert_name }} \
           --nginx --nginx-server-root {{ nginx.dir }} \
-          --keep \
+          --keep --non-interactive \
           -d {{ nginx.domains | map(attribute='name') | join(',') }}

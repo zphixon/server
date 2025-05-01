@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset=utf-8>
-    <link rel=stylesheet href=index.css>
-    <title>
-      xdd
-    </title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="index.css">
+    <title>xdd</title>
   </head>
   <body>
-    <div id=outer>
-      <img id=xdd src="xddrat.jpg">
+    <div id="outer">
+      <img id="xdd" src="xddrat.jpg">
     </div>
   </body>
   <script type="text/javascript">
+    let xdd = document.getElementById("xdd");
+    xdd.onclick = _ => {
+      if (xdd.src == "xddrat.jpg") {
+        xdd.src = "xddpepe.avif";
+      } else {
+        xdd.src = "xddrat.jpg";
+      }
+    };
     if (Math.random() > 0.5) {
-      document.getElementById("xdd").src = "xddpepe.avif";
+      xdd.src = "xddpepe.avif";
     }
   </script>
   <!-- hi https://zphixon.com/ -->

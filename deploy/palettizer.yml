@@ -23,7 +23,7 @@
       become_user: zack
       ansible.builtin.shell: # noqa: command-instead-of-shell
         chdir: "{{ palettizer.source_dir }}"
-        cmd: /home/zack/.cargo/bin/cargo build --release
+        cmd: /snap/bin/cargo build --release
       register: build
       changed_when: "'Compiling' in build.stderr"
       notify:

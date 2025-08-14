@@ -1,9 +1,6 @@
 [submodule "shrub_bot"]
 	path = shrub_bot
 	url = git@github.com:zphixon/shrub-bot.git
-[submodule "spotti"]
-	path = spotti
-	url = git@github.com:zphixon/spotti.git
 [submodule "dart-or-penny"]
 	path = dart-or-penny
 	url = git@github.com:zphixon/dart-or-penny.git

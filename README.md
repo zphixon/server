@@ -16,7 +16,6 @@ cd deploy
 ansible-playbook -e @secret.yml -i hosts.ini -k nginx.yml
 ansible-playbook -e @secret.yml -i hosts.ini -k syncthing.yml
 ansible-playbook -e @secret.yml -i hosts.ini -k shrub-bot.yml
-ansible-playbook -e @secret.yml -i hosts.ini -k spotti.yml
 ansible-playbook -e @secret.yml -i hosts.ini -k pages.yml
 ansible-playbook -e @secret.yml -i hosts.ini -k dart-or-penny.yml
 ```

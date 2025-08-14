@@ -36,26 +36,6 @@ syncthing:
   #binary: /usr/bin/syncthing
   binary: /server/syncthing/custom/syncthing-linux-amd64-v1.27.12/syncthing
 
-spotti:
-  user: spotti
-  dir: /server/spotti
-  database: /server/spotti/recents.db
-  source_dir: /server/source/spotti
-  database_url: sqlite:///server/spotti/recents.db
-  port: 44554
-  web_root: /music
-  endpoints:
-    - name: authorize
-      value: authorize
-    - name: refresh
-      value: refresh
-    - name: get_new
-      value: ""
-    - name: show_all
-      value: show-all
-    - name: uptime
-      value: up
-
 shrub_bot:
   user: shrub_bot
   dir: /server/shrub_bot

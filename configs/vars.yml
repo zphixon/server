@@ -34,7 +34,8 @@ syncthing:
     data_public: 22000
     data_private: 22200
   #binary: /usr/bin/syncthing
-  binary: /server/syncthing/custom/syncthing-linux-amd64-v1.27.12/syncthing
+  #binary: /server/syncthing/custom/syncthing-linux-amd64-v1.27.12/syncthing
+  binary: /server/syncthing/custom/syncthing-linux-amd64-v2.0.10/syncthing
 
 shrub_bot:
   user: shrub_bot

@@ -1,7 +1,7 @@
 {% for domain in nginx.domains %}
 server {
   server_name {{ domain.name }};
-  listen [::]:80;
+  listen [::]:80 http2;
   root {{ nginx.dir }}/www/{{ domain.name }};
   index index.html;
   location / {

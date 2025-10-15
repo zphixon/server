@@ -3,6 +3,9 @@
   hosts: grape_surgery
   become: true
 
+  roles:
+    - server
+
   vars_files:
     - ../configs/vars.yml
 
@@ -61,6 +64,12 @@
         path: "{{ nginx.dir }}/sites.conf"
         regexp: ipv6only=on
         replace: ipv6only=off
+
+    - name: Turn on HTTP/2 (https://github.com/certbot/certbot/issues/3646)
+      ansible.builtin.replace:
+        path: "{{ nginx.dir }}/sites.conf"
+        regexp: "( ssl[; ])"
+        replace: " http2 \\1"
 
     - name: Stop nginx (https://github.com/certbot/certbot/issues/5486)
       ansible.builtin.command:

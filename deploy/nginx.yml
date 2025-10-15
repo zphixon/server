@@ -65,12 +65,6 @@
         regexp: ipv6only=on
         replace: ipv6only=off
 
-    - name: Turn on HTTP/2 (https://github.com/certbot/certbot/issues/3646)
-      ansible.builtin.replace:
-        path: "{{ nginx.dir }}/sites.conf"
-        regexp: "( ssl[; ])"
-        replace: " http2 \\1"
-
     - name: Stop nginx (https://github.com/certbot/certbot/issues/5486)
       ansible.builtin.command:
         pkill nginx

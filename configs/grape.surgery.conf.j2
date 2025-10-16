@@ -16,6 +16,8 @@ location {{ dop.page_root }} {
 # protected by csrf token
 location {{ dop.page_root }}/.dop/thumbnail {
   proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }}/.dop/thumbnail;
+  proxy_http_version 1.1;
+  proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
   proxy_set_header Upgrade $http_upgrade;
   proxy_set_header Connection "upgrade";

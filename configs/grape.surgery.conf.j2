@@ -13,6 +13,14 @@ location {{ dop.page_root }} {
   auth_basic_user_file {{ nginx.htpasswd }};
 }
 
+# protected by csrf token
+location {{ dop.page_root }}/.dop/thumbnail {
+  proxy_pass http://localhost:{{ dop.port }}{{ dop.page_root }}/.dop/thumbnail;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+}
+
 location {{ palettizer.root }} {
   proxy_set_header X-Real-IP $remote_addr;
   proxy_pass http://localhost:{{ palettizer.port }}{{ palettizer.root }};

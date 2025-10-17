@@ -24,7 +24,7 @@
         owner: "{{ nginx.user }}"
         mode: u=rwx,go=
 
-    - name: Template nginx.service
+    - name: Template {{ nginx.custom_service }}.service
       ansible.builtin.template:
         mode: ugo=r
         src: ../configs/nginx.service.j2
@@ -69,7 +69,7 @@
       ansible.builtin.command:
         pkill nginx
       changed_when: true
-      notify: Reload nginx
+      notify: Reload {{ nginx.custom_service }}.service
 
   handlers:
 
@@ -80,7 +80,7 @@
         state: stopped
         enabled: false
 
-    - name: Reload nginx
+    - name: Reload {{ nginx.custom_service }}.service
       ansible.builtin.service:
         name: "{{ nginx.custom_service }}"
         state: restarted

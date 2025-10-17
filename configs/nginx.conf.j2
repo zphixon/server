@@ -23,10 +23,19 @@ http {
   types_hash_max_size 2048;
   include /etc/nginx/mime.types;
   default_type application/octet-stream;
+
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
   ssl_prefer_server_ciphers on;
-  access_log {{ nginx.dir }}/access.log;
-  error_log {{ nginx.dir }}/error.log;
+
+  # wish I could just do like $default or something
+  log_format with_host
+    '$remote_addr - $remote_user [$time_local] '
+    '$http_host "$request" $status $body_bytes_sent '
+    '"$http_referer" "$http_user_agent"';
+
+  access_log {{ nginx.dir }}/access.log with_host;
+  error_log {{ nginx.dir }}/error.log with_host;
+
   gzip on;
   include {{ nginx.dir }}/sites.conf;
 }

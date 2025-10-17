@@ -1,3 +1,7 @@
+if ($http_user_agent ~ "Mastodon") {
+  return 410;
+}
+
 location {{ syncthing.endpoint }} {
   proxy_set_header Host localhost;
   proxy_set_header X-Real-IP $remote_addr;

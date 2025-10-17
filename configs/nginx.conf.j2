@@ -34,7 +34,7 @@ http {
     '"$http_referer" "$http_user_agent"';
 
   access_log {{ nginx.dir }}/access.log with_host;
-  error_log {{ nginx.dir }}/error.log with_host;
+  error_log {{ nginx.dir }}/error.log;
 
   gzip on;
   include {{ nginx.dir }}/sites.conf;

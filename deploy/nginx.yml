@@ -54,6 +54,10 @@
       with_items: "{{ nginx.domains }}"
       when: "'include' in item"
 
+    - name: Check config syntax
+      ansible.builtin.command:
+        nginx -t -c {{ nginx.dir }}/nginx.conf
+
     - name: Reinstall certificates
       ansible.builtin.command:
         certbot --reinstall --nginx --nginx-server-root {{ nginx.dir }} --cert-name allOfEm

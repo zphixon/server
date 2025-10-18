@@ -23,7 +23,11 @@
       become_user: zack
       ansible.builtin.shell: # noqa: command-instead-of-shell
         chdir: "{{ dop.source_dir }}"
-        cmd: /snap/bin/cargo b --release
+        cmd: |
+          cd frontend
+          npm ci
+          cd ..
+          /snap/bin/cargo b --release
       register: build
       changed_when: true
       notify:

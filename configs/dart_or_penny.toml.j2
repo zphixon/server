@@ -1,11 +1,8 @@
 thumbnail_dir = '{{ syncthing.data_dir }}/thumbnails'
 file_dir = '{{ syncthing.data_dir }}'
-thumbnail_size = 75
 page_root = '{{ dop.page_root }}'
 bind = '127.0.0.1:{{ dop.port }}'
-
-# done with nginx htpasswd
-#auth = ''
+scan_interval = "1 hour"
 
 [[shortcut]]
 name = "Recipes"
